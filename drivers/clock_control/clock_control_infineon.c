@@ -30,8 +30,6 @@
 #define CY_CFG_SYSCLK_ECO_ESR         150UL
 #define CY_CFG_SYSCLK_ECO_DRIVE_LEVEL 100UL
 
-#define GET_CLK_SOURCE_ORD(N) DT_DEP_ORD(DT_CLOCKS_CTLR_BY_IDX(DT_NODELABEL(N), 0))
-
 /* Enumeration of enabled in device tree Clock, uses for indexing clock info table */
 enum {
 #if DT_NODE_HAS_STATUS_OKAY(DT_NODELABEL(clk_imo))
