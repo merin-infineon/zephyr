@@ -121,6 +121,7 @@ extern wiced_result_t host_stack_send_iso_to_lower(uint8_t *data, uint16_t len);
 extern cybt_result_t cybt_platform_msg_to_bt_task(const uint16_t msg, bool is_from_isr);
 extern void cybt_bttask_deinit(void);
 uint8_t task_queue_utilization(void);
+extern bool cybt_bt_queue_is_empty(void);
 
 static int cyw208xx_bt_firmware_download(const uint8_t *firmware_image, uint32_t size)
 {
@@ -334,12 +335,10 @@ done:
 	return 0;
 }
 
-static DEVICE_API(bt_hci, drv) = {
-	.open = cyw208xx_open,
-	.close = cyw208xx_close,
-	.send = cyw208xx_send,
-	.setup = cyw208xx_setup
-};
+static DEVICE_API(bt_hci, drv) = {.open = cyw208xx_open,
+				  .close = cyw208xx_close,
+				  .send = cyw208xx_send,
+				  .setup = cyw208xx_setup};
 
 static int cyw208xx_hci_init(const struct device *dev)
 {
@@ -347,7 +346,7 @@ static int cyw208xx_hci_init(const struct device *dev)
 
 	const cybt_platform_config_t cybsp_bt_platform_cfg = {
 		.hci_config = {
-			.hci_transport = CYBT_HCI_IPC,
+				.hci_transport = CYBT_HCI_IPC,
 			},
 
 		.controller_config = {
