@@ -192,10 +192,10 @@ static int cybt_enable_low_power_mode(void)
 	struct net_buf *buf;
 	int err;
 
-	buf = bt_hci_cmd_create(HCI_VSC_WRITE_SLEEP_MODE, HCI_VSC_WRITE_SLEEP_MODE_LENGTH);
+	buf = bt_hci_cmd_alloc(K_FOREVER);
 	if (buf == NULL) {
 		LOG_ERR("Unable to allocate command buffer");
-		return -ENOMEM;
+		return -ENOBUFS;
 	}
 
 	uint8_t *data = net_buf_add(buf, HCI_VSC_WRITE_SLEEP_MODE_LENGTH);
